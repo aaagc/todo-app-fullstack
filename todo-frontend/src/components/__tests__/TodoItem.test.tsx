@@ -1,7 +1,12 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { TodoItem } from '../TodoItem';
 import { Todo } from '@/types/todo';
+
+const renderWithChakra = (component: React.ReactElement) => {
+  return render(<ChakraProvider>{component}</ChakraProvider>);
+};
 
 const mockTodo: Todo = {
   id: 1,
@@ -12,12 +17,7 @@ const mockTodo: Todo = {
   updatedAt: '2023-01-01T00:00:00.000Z',
 };
 
-const renderWithChakra = (component: React.ReactElement) => {
-  return render(<ChakraProvider>{component}</ChakraProvider>);
-};
-
 describe('TodoItem', () => {
-  const mockOnUpdate = jest.fn();
   const mockOnDelete = jest.fn();
   const mockOnToggle = jest.fn();
   const mockOnEdit = jest.fn();
@@ -30,7 +30,6 @@ describe('TodoItem', () => {
     renderWithChakra(
       <TodoItem
         todo={mockTodo}
-        onUpdate={mockOnUpdate}
         onDelete={mockOnDelete}
         onToggle={mockOnToggle}
         onEdit={mockOnEdit}
@@ -47,9 +46,9 @@ describe('TodoItem', () => {
     renderWithChakra(
       <TodoItem
         todo={completedTodo}
-        onUpdate={mockOnUpdate}
         onDelete={mockOnDelete}
         onToggle={mockOnToggle}
+        onEdit={mockOnEdit}
       />
     );
 
@@ -61,7 +60,6 @@ describe('TodoItem', () => {
     renderWithChakra(
       <TodoItem
         todo={mockTodo}
-        onUpdate={mockOnUpdate}
         onDelete={mockOnDelete}
         onToggle={mockOnToggle}
         onEdit={mockOnEdit}
@@ -71,48 +69,38 @@ describe('TodoItem', () => {
     const checkbox = screen.getByRole('checkbox');
     fireEvent.click(checkbox);
 
-    await waitFor(() => {
-      expect(mockOnToggle).toHaveBeenCalledWith(mockTodo.id);
-    });
+    expect(mockOnToggle).toHaveBeenCalledWith(1);
   });
 
-  it('calls onDelete when delete button is clicked', async () => {
+  it('calls onDelete when delete button is clicked', () => {
     renderWithChakra(
       <TodoItem
         todo={mockTodo}
-        onUpdate={mockOnUpdate}
         onDelete={mockOnDelete}
         onToggle={mockOnToggle}
         onEdit={mockOnEdit}
       />
     );
 
-    const deleteButton = screen.getByLabelText(/delete/i);
+    const deleteButton = screen.getByLabelText('Delete todo');
     fireEvent.click(deleteButton);
 
-    await waitFor(() => {
-      expect(mockOnDelete).toHaveBeenCalledWith(mockTodo.id);
-    });
+    expect(mockOnDelete).toHaveBeenCalledWith(1);
   });
 
-  it('calls onEdit when edit button is clicked', async () => {
+  it('calls onEdit when edit button is clicked', () => {
     renderWithChakra(
       <TodoItem
         todo={mockTodo}
-        onUpdate={mockOnUpdate}
         onDelete={mockOnDelete}
         onToggle={mockOnToggle}
         onEdit={mockOnEdit}
       />
     );
 
-    const editButton = screen.getByLabelText(/edit/i);
+    const editButton = screen.getByLabelText('Edit todo');
     fireEvent.click(editButton);
 
-    await waitFor(() => {
-      expect(mockOnEdit).toHaveBeenCalledWith(mockTodo);
-    });
+    expect(mockOnEdit).toHaveBeenCalledWith(mockTodo);
   });
-
-
 });

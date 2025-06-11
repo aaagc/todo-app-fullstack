@@ -11,7 +11,7 @@ export interface Todo {
 
 export class CreateTodoDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsOptional()
   @IsString()
@@ -38,23 +38,23 @@ export class UpdateTodoDto {
 
 export class TodoResponseDto {
   @IsNumber()
-  id: number;
+  id!: number;
 
   @IsString()
-  title: string;
+  title!: string;
 
   @IsOptional()
   @IsString()
   description?: string;
 
   @IsBoolean()
-  completed: boolean;
+  completed!: boolean;
 
   @IsDateString()
-  createdAt: string;
+  createdAt!: string;
 
   @IsDateString()
-  updatedAt: string;
+  updatedAt!: string;
 }
 
 export interface TodoFilters {

@@ -137,6 +137,14 @@ export function TodoList() {
     }
   };
 
+  const handleFormSubmit = async (todoData: CreateTodoDto | UpdateTodoDto) => {
+    if (editingTodo) {
+      await handleUpdateTodo(todoData as UpdateTodoDto);
+    } else {
+      await handleAddTodo(todoData as CreateTodoDto);
+    }
+  };
+
   const handleToggleTodo = async (id: number) => {
     try {
       const updatedTodo = await todoApi.toggleTodo(id);
@@ -267,7 +275,7 @@ export function TodoList() {
       <TodoForm
         isOpen={isOpen}
         onClose={handleFormClose}
-        onSubmit={editingTodo ? handleUpdateTodo : handleAddTodo}
+        onSubmit={handleFormSubmit}
         todo={editingTodo}
         isLoading={submitting}
       />

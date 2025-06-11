@@ -30,8 +30,8 @@ describe('todoApi', () => {
           title: 'Test Todo 1',
           description: 'Description 1',
           completed: false,
-          createdAt: new Date('2023-01-01'),
-          updatedAt: new Date('2023-01-01'),
+          createdAt: '2023-01-01T00:00:00.000Z',
+          updatedAt: '2023-01-01T00:00:00.000Z',
         },
       ];
 
@@ -58,8 +58,8 @@ describe('todoApi', () => {
         title: 'Test Todo',
         description: 'Test Description',
         completed: false,
-        createdAt: new Date('2023-01-01'),
-        updatedAt: new Date('2023-01-01'),
+        createdAt: '2023-01-01T00:00:00.000Z',
+        updatedAt: '2023-01-01T00:00:00.000Z',
       };
 
       mockTodoApi.getTodo.mockResolvedValue(mockTodo);
@@ -82,8 +82,8 @@ describe('todoApi', () => {
         id: 1,
         ...createTodoDto,
         completed: false,
-        createdAt: new Date('2023-01-01'),
-        updatedAt: new Date('2023-01-01'),
+        createdAt: '2023-01-01T00:00:00.000Z',
+        updatedAt: '2023-01-01T00:00:00.000Z',
       };
 
       mockTodoApi.createTodo.mockResolvedValue(mockCreatedTodo);
@@ -106,8 +106,8 @@ describe('todoApi', () => {
         title: 'Updated Todo',
         description: 'Test Description',
         completed: false,
-        createdAt: new Date('2023-01-01'),
-        updatedAt: new Date('2023-01-01'),
+        createdAt: '2023-01-01T00:00:00.000Z',
+        updatedAt: '2023-01-01T00:00:00.000Z',
       };
 
       mockTodoApi.updateTodo.mockResolvedValue(mockUpdatedTodo);
@@ -126,8 +126,8 @@ describe('todoApi', () => {
         title: 'Test Todo',
         description: 'Test Description',
         completed: true,
-        createdAt: new Date('2023-01-01'),
-        updatedAt: new Date('2023-01-01'),
+        createdAt: '2023-01-01T00:00:00.000Z',
+        updatedAt: '2023-01-01T00:00:00.000Z',
       };
 
       mockTodoApi.toggleTodo.mockResolvedValue(mockToggledTodo);

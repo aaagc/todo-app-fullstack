@@ -40,7 +40,11 @@
     "install:frontend": "cd todo-frontend && npm install",
     "generate:feature": "node scripts/generate-feature.js",
     "generate:component": "node scripts/generate-component.js",
-    "setup:dev": "npm run install:all && npm run build:shared"
+    "setup:dev": "npm run install:all && npm run build:shared",
+    "type-check": "./scripts/check-types.sh",
+    "check-lint": "./scripts/check-lint.sh",
+    "check-all": "./scripts/check-all.sh",
+    "health-check": "npm run check-all"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

@@ -22,7 +22,7 @@ import { Todo, CreateTodoDto, UpdateTodoDto } from '@/types/todo';
 interface TodoFormProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (todo: CreateTodoDto | UpdateTodoDto) => void;
+  onSubmit: (todo: CreateTodoDto | UpdateTodoDto) => void | Promise<void>;
   todo?: Todo | null;
   isLoading?: boolean;
 }
