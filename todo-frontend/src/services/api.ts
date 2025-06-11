@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Todo, CreateTodoDto, UpdateTodoDto } from '@/types/todo';
 
-const API_BASE_URL = 'https://work-1-crmexbyyrgxcmdqj.prod-runtime.all-hands.dev/api';
+const API_BASE_URL = 'https://work-1-gfquvcfdgflzedaj.prod-runtime.all-hands.dev/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

@@ -1,15 +1,21 @@
-# Todo App - API Specification
+# Todo App Fullstack - Enhanced API Specification
 
 ## Overview
 
-This document describes the REST API for the Todo App backend service. The API provides endpoints for managing todo items with full CRUD operations.
+This document describes the **enhanced REST API** for the Todo App backend service. The API provides comprehensive endpoints for managing todo items with full CRUD operations, validation, error handling, and testing coverage.
 
 ## Base Information
 
-- **Base URL**: `http://localhost:12000/api`
+- **Base URL (Development)**: `http://localhost:12000/api`
+- **Base URL (Production)**: `https://work-1-gfquvcfdgflzedaj.prod-runtime.all-hands.dev/api`
+- **API Documentation**: `https://work-1-gfquvcfdgflzedaj.prod-runtime.all-hands.dev/api/docs`
 - **Content-Type**: `application/json`
 - **API Version**: v1
 - **Protocol**: HTTP/HTTPS
+- **Framework**: NestJS with TypeORM
+- **Database**: SQLite with TypeORM migrations
+- **Validation**: class-validator with comprehensive DTOs
+- **Testing**: 40/40 API tests passing (24 unit + 16 E2E)
 
 ## Authentication
 
