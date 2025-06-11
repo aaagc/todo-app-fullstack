@@ -8,7 +8,7 @@ export interface ValidationResult {
 
 export async function validateDto<T extends object>(
   dtoClass: new () => T,
-  data: any,
+  data: unknown,
 ): Promise<ValidationResult> {
   const dto = plainToClass(dtoClass, data);
   const errors: ValidationError[] = await validate(dto);

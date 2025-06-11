@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { Todo } from './todo.entity';
@@ -9,7 +8,6 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 
 describe('TodoService', () => {
   let service: TodoService;
-  let repository: Repository<Todo>;
 
   const mockTodo: Todo = {
     id: 1,
@@ -40,7 +38,6 @@ describe('TodoService', () => {
     }).compile();
 
     service = module.get<TodoService>(TodoService);
-    repository = module.get<Repository<Todo>>(getRepositoryToken(Todo));
   });
 
   afterEach(() => {
@@ -177,12 +174,14 @@ describe('TodoService', () => {
       const todoToToggle = { ...mockTodo };
       const toggledResult = { ...mockTodo, completed: true };
 
-      jest.spyOn(service, 'findOne').mockResolvedValue(todoToToggle);
+      const findOneSpy = jest
+        .spyOn(service, 'findOne')
+        .mockResolvedValue(todoToToggle);
       mockRepository.save.mockResolvedValue(toggledResult);
 
       const result = await service.toggleComplete(1);
 
-      expect(service.findOne).toHaveBeenCalledWith(1);
+      expect(findOneSpy).toHaveBeenCalledWith(1);
       expect(mockRepository.save).toHaveBeenCalled();
       expect(result).toEqual(toggledResult);
     });
@@ -191,20 +190,22 @@ describe('TodoService', () => {
       const completedTodo = { ...mockTodo, completed: true };
       const toggledResult = { ...mockTodo, completed: false };
 
-      jest.spyOn(service, 'findOne').mockResolvedValue(completedTodo);
+      const findOneSpy = jest
+        .spyOn(service, 'findOne')
+        .mockResolvedValue(completedTodo);
       mockRepository.save.mockResolvedValue(toggledResult);
 
       const result = await service.toggleComplete(1);
 
-      expect(service.findOne).toHaveBeenCalledWith(1);
+      expect(findOneSpy).toHaveBeenCalledWith(1);
       expect(mockRepository.save).toHaveBeenCalled();
       expect(result).toEqual(toggledResult);
     });
 
     it('should throw NotFoundException when toggling non-existent todo', async () => {
-      jest.spyOn(service, 'findOne').mockRejectedValue(
-        new NotFoundException('Todo with ID 999 not found'),
-      );
+      jest
+        .spyOn(service, 'findOne')
+        .mockRejectedValue(new NotFoundException('Todo with ID 999 not found'));
 
       await expect(service.toggleComplete(999)).rejects.toThrow(
         new NotFoundException('Todo with ID 999 not found'),

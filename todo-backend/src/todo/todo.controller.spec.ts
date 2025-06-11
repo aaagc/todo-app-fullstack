@@ -7,7 +7,6 @@ import { Todo } from './todo.entity';
 
 describe('TodoController', () => {
   let controller: TodoController;
-  let service: TodoService;
 
   const mockTodo: Todo = {
     id: 1,
@@ -39,7 +38,6 @@ describe('TodoController', () => {
     }).compile();
 
     controller = module.get<TodoController>(TodoController);
-    service = module.get<TodoService>(TodoService);
   });
 
   afterEach(() => {
@@ -58,7 +56,7 @@ describe('TodoController', () => {
 
       const result = await controller.create(createTodoDto);
 
-      expect(service.create).toHaveBeenCalledWith(createTodoDto);
+      expect(mockTodoService.create).toHaveBeenCalledWith(createTodoDto);
       expect(result).toEqual(mockTodo);
     });
 
@@ -67,12 +65,16 @@ describe('TodoController', () => {
         title: 'Minimal Todo',
       };
 
-      const minimalTodo = { ...mockTodo, title: 'Minimal Todo', description: undefined };
+      const minimalTodo = {
+        ...mockTodo,
+        title: 'Minimal Todo',
+        description: undefined,
+      };
       mockTodoService.create.mockResolvedValue(minimalTodo);
 
       const result = await controller.create(createTodoDto);
 
-      expect(service.create).toHaveBeenCalledWith(createTodoDto);
+      expect(mockTodoService.create).toHaveBeenCalledWith(createTodoDto);
       expect(result).toEqual(minimalTodo);
     });
   });
@@ -84,7 +86,7 @@ describe('TodoController', () => {
 
       const result = await controller.findAll();
 
-      expect(service.findAll).toHaveBeenCalled();
+      expect(mockTodoService.findAll).toHaveBeenCalled();
       expect(result).toEqual(todos);
     });
 
@@ -103,7 +105,7 @@ describe('TodoController', () => {
 
       const result = await controller.findOne(1);
 
-      expect(service.findOne).toHaveBeenCalledWith(1);
+      expect(mockTodoService.findOne).toHaveBeenCalledWith(1);
       expect(result).toEqual(mockTodo);
     });
 
@@ -113,7 +115,7 @@ describe('TodoController', () => {
       // The ParseIntPipe should convert string to number
       const result = await controller.findOne(1);
 
-      expect(service.findOne).toHaveBeenCalledWith(1);
+      expect(mockTodoService.findOne).toHaveBeenCalledWith(1);
       expect(result).toEqual(mockTodo);
     });
   });
@@ -130,7 +132,7 @@ describe('TodoController', () => {
 
       const result = await controller.update(1, updateTodoDto);
 
-      expect(service.update).toHaveBeenCalledWith(1, updateTodoDto);
+      expect(mockTodoService.update).toHaveBeenCalledWith(1, updateTodoDto);
       expect(result).toEqual(updatedTodo);
     });
 
@@ -144,7 +146,7 @@ describe('TodoController', () => {
 
       const result = await controller.update(1, updateTodoDto);
 
-      expect(service.update).toHaveBeenCalledWith(1, updateTodoDto);
+      expect(mockTodoService.update).toHaveBeenCalledWith(1, updateTodoDto);
       expect(result).toEqual(updatedTodo);
     });
   });
@@ -156,7 +158,7 @@ describe('TodoController', () => {
 
       const result = await controller.toggleComplete(1);
 
-      expect(service.toggleComplete).toHaveBeenCalledWith(1);
+      expect(mockTodoService.toggleComplete).toHaveBeenCalledWith(1);
       expect(result).toEqual(toggledTodo);
     });
   });
@@ -167,7 +169,7 @@ describe('TodoController', () => {
 
       const result = await controller.remove(1);
 
-      expect(service.remove).toHaveBeenCalledWith(1);
+      expect(mockTodoService.remove).toHaveBeenCalledWith(1);
       expect(result).toBeUndefined();
     });
   });

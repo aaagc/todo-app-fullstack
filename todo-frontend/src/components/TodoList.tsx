@@ -17,7 +17,7 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 import { MdAdd, MdSearch } from 'react-icons/md';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Todo, CreateTodoDto, UpdateTodoDto } from '@/types/todo';
 import { todoApi } from '@/services/api';
 import { TodoItem } from './TodoItem';
@@ -35,20 +35,12 @@ export function TodoList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
-  useEffect(() => {
-    filterTodos();
-  }, [todos, filter, searchTerm]);
-
-  const fetchTodos = async () => {
+  const fetchTodos = useCallback(async () => {
     try {
       setLoading(true);
       const data = await todoApi.getTodos();
       setTodos(data);
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to fetch todos',
@@ -59,9 +51,9 @@ export function TodoList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
-  const filterTodos = () => {
+  const filterTodos = useCallback(() => {
     let filtered = todos;
 
     // Filter by completion status
@@ -80,7 +72,15 @@ export function TodoList() {
     }
 
     setFilteredTodos(filtered);
-  };
+  }, [todos, filter, searchTerm]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, [fetchTodos]);
+
+  useEffect(() => {
+    filterTodos();
+  }, [todos, filter, searchTerm, filterTodos]);
 
   const handleAddTodo = async (todoData: CreateTodoDto) => {
     try {
@@ -94,7 +94,7 @@ export function TodoList() {
         duration: 3000,
         isClosable: true,
       });
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to add todo',
@@ -123,7 +123,7 @@ export function TodoList() {
         duration: 3000,
         isClosable: true,
       });
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to update todo',
@@ -151,7 +151,7 @@ export function TodoList() {
       setTodos(prev => prev.map(todo => 
         todo.id === id ? updatedTodo : todo
       ));
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to toggle todo',
@@ -173,7 +173,7 @@ export function TodoList() {
         duration: 3000,
         isClosable: true,
       });
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to delete todo',
