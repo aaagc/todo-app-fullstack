@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
@@ -95,8 +98,12 @@ describe('Todo API (e2e)', () => {
   describe('/api/todos (GET)', () => {
     beforeEach(async () => {
       // Clean up before each test
-      await request(app.getHttpServer()).delete('/api/todos/1').catch(() => {});
-      await request(app.getHttpServer()).delete('/api/todos/2').catch(() => {});
+      await request(app.getHttpServer())
+        .delete('/api/todos/1')
+        .catch(() => {});
+      await request(app.getHttpServer())
+        .delete('/api/todos/2')
+        .catch(() => {});
     });
 
     it('should return all todos', async () => {
@@ -145,9 +152,7 @@ describe('Todo API (e2e)', () => {
     });
 
     it('should return 404 for non-existent todo', () => {
-      return request(app.getHttpServer())
-        .get('/api/todos/999')
-        .expect(404);
+      return request(app.getHttpServer()).get('/api/todos/999').expect(404);
     });
   });
 
@@ -233,9 +238,7 @@ describe('Todo API (e2e)', () => {
     });
 
     it('should return 404 when deleting non-existent todo', () => {
-      return request(app.getHttpServer())
-        .delete('/api/todos/999')
-        .expect(404);
+      return request(app.getHttpServer()).delete('/api/todos/999').expect(404);
     });
   });
 
